@@ -9,6 +9,14 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
+//Set up mongoose connection
+var mongoose = require('mongoose');
+var mongoDB = "mongodb+srv://admin:admin@cluster0.k8wtx.mongodb.net/MembersOnly?retryWrites=true&w=majority";
+mongoose.connect(mongoDB, { useNewUrlParser: true });
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -26,6 +34,9 @@ app.use('/users', usersRouter);
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
+// mongodb+srv://admin:<password>@cluster0.k8wtx.mongodb.net/<dbname>?retryWrites=true&w=majority
+// mongodb+srv://admin:admin@cluster0.k8wtx.mongodb.net/MembersOnly?retryWrites=true&w=majority
 
 // error handler
 app.use(function(err, req, res, next) {
