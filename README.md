@@ -8,3 +8,4 @@ Express messaging app where only members can see who wrote the original message
 3. add POST logic to sign up form 
 4. validate and sanitize form data 
 5. add pword encryption 
+6. rework routes *
