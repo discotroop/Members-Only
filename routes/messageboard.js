@@ -9,13 +9,8 @@ router.get('/', function(req, res, next) {
 
 router.get('/sign-up', member_controller.member_create_get);
 
+router.post('/sign-up', member_controller.member_create_post);
 
-
-// // GET request for creating a user. NOTE This must come before routes that display users (uses id).
-// router.get('/item/create', item_controller.item_create_get);
-
-// // POST request for creating item.
-// router.post('/', item_controller.item_create_post);
 
 
 
