@@ -42,7 +42,7 @@ function messageCreate(title, text, author, cb) {
       title: title,
       time: new Date(),
       text: text,
-      Author, author,
+      Author: author,
   });
   
   // save
@@ -61,7 +61,7 @@ function messageCreate(title, text, author, cb) {
 
 // Create Vegetable member
 function memberCreate(firstname, lastname, password, isMember, email, cb) {
-    memberdetail = {
+    let memberdetail = {
         firstName: firstname,
         lastName: lastname,
         password: password,
@@ -70,6 +70,7 @@ function memberCreate(firstname, lastname, password, isMember, email, cb) {
     }
     let member = new Member(memberdetail);
     member.save(function (err) {
+        console.log(cb)
         if(err) {
             cb(err, null)
             return
@@ -79,19 +80,6 @@ function memberCreate(firstname, lastname, password, isMember, email, cb) {
         cb(null, member)
     });
 }
-
-// Create multiple produce types
-function createmessages(cb) {
-    async.series([
-        function(callback) {
-          messageCreate('Test', 'Testing Messages', 'bob', callback)
-        },
-        ],
-        // optional callback
-        cb);
-}
-
-
 // create multiple store members
 function createmembers(cb) {
     async.series([
@@ -102,10 +90,35 @@ function createmembers(cb) {
                 'safepassword',
                 true,
                 'test@test.com',
+                callback,
+                );
+        },
+        function(callback) {
+            memberCreate(
+                'Bob2', 
+                'Testing.',
+                'safepassword',
+                true,
+                'test@test.com',
+                callback,
                 );
         },
     ],
     cb);
+}
+
+// Create multiple produce types
+function createmessages(cb) {
+    async.series([
+        function(callback) {
+          messageCreate('Test', 'Testing Messages', members[0], callback)
+        },
+        function(callback) {
+          messageCreate('Test', 'Testing Messages', members[1], callback)
+        },
+        ],
+        // optional callback
+        cb);
 }
 
 
