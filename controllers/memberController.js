@@ -17,12 +17,25 @@ exports.index = function(req, res) {
         },
     }, function(err, results) {
         // render index page and pass in results as data.
+        console.log(results.messages)
         res.render('index', {title: 'Members Only',
          error: err,
          data: results
         });
     });
 };
+
+exports.item_list = function (req, res, next) {
+
+    Item.find({}, 'name type')
+    .populate('type')
+    .exec(function(err, list_items) {
+        if(err) {return next(err);}
+        // on success render
+        res.render("item_list", {title: "All Items", item_list: list_items});
+    });
+};
+
 
 exports.member_create_get = function (req, res, next) {
     res.render('signUp');
